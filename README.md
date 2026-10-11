@@ -100,7 +100,7 @@ flowchart TB
     end
 
     subgraph Data
-        SQL[(SQLite / MySQL<br/>SQLAlchemy + Alembic)]
+        SQL[(SQLAlchemy + Alembic<br/>SQLite on Pi 5 · MySQL at scale)]
         MONGO[(MongoDB GridFS<br/>video/audio storage)]
         REDIS[(Redis<br/>cache/queue)]
     end
@@ -144,9 +144,9 @@ See [`docs/architecture.md`](docs/architecture.md) for the deeper walkthrough an
 | **Frontend** | React 18, Vite, Tailwind CSS, Framer Motion, React Router, Chart.js, react-oauth/google |
 | **Backend** | Python, Flask, SQLAlchemy, Alembic, Gunicorn, gevent |
 | **AI / ML** | MediaPipe Pose, OpenCV, NumPy, librosa, SoundFile, CuPy (GPU), PyTorch (GPU detection) |
-| **Data** | SQLite / MySQL, MongoDB (GridFS), Redis |
+| **Data** | SQLite on a Raspberry Pi 5, MySQL if deployed at scale, MongoDB (GridFS), Redis |
 | **Messaging** | RabbitMQ (async video-processing queue) |
-| **Infra / DevOps** | Docker & Docker Compose, Nginx, Prometheus + Grafana, Raspberry Pi deployment |
+| **Infra / DevOps** | Docker & Docker Compose, Nginx, Raspberry Pi deployment |
 | **Integrations** | Google OAuth, Razorpay, SMTP email |
 
 ---
@@ -189,11 +189,10 @@ Only documentation and demo media are published here. The application source rem
 
 ---
 
-## 👤 Author
+## 👤 Authors
 
-**Radheya Kale** — full-stack + applied AI engineer.
+**Radheya Kale** — React frontend, Flask API, the MediaPipe/OpenCV comparison engine, async workers, payments, and deployment.
 
-- Built the platform end-to-end: React frontend, Flask backend, the MediaPipe/OpenCV comparison engine, async worker infrastructure, and payments.
-- 🌐 Live: [dancefloorkaraoke.com](https://dancefloorkaraoke.com)
+**Nilam Deshpande** — React frontend.
 
-<!-- Add LinkedIn / email / portfolio links here -->
+🌐 Live: [dancefloorkaraoke.com](https://dancefloorkaraoke.com)

@@ -18,10 +18,11 @@ processing is offloaded to asynchronous workers.
                         │  admin · payments       │
                         └───┬───────┬─────────┬───┘
                             │       │         │
-             ┌──────────────▼─┐ ┌───▼────┐ ┌──▼─────────┐
-             │ SQL (SQLAlchemy)│ │ Redis  │ │ RabbitMQ   │
-             │ SQLite / MySQL  │ │ cache  │ │ job queue  │
-             └─────────────────┘ └────────┘ └──┬─────────┘
+             ┌──────────────────┐ ┌──────────┐ ┌────────────┐
+             │ SQL (SQLAlchemy) │ │  Redis   │ │  RabbitMQ  │
+             │ SQLite on Pi 5   │ │  cache   │ │ job queue  │
+             │ MySQL at scale   │ │          │ │            │
+             └──────────────────┘ └──────────┘ └─────┬──────┘
                                                │ consume
                                     ┌──────────▼──────────┐
                                     │  Video Worker       │
@@ -65,19 +66,21 @@ processing is offloaded to asynchronous workers.
 - **transactions / credit_bundles / purchases** — payments and credits
 - **sessions / password_reset_tokens / email_subscriptions** — auth + lifecycle
 
-Migrations are managed with **Alembic** and a consolidated `consolidated_schema.sql`
-that can target both SQLite (dev) and MySQL (prod).
+Migrations are managed with **Alembic** and a consolidated `consolidated_schema.sql`.
+The Raspberry Pi 5 deployment uses **SQLite**. A deployment at scale would use **MySQL**
+with the same schema.
 
 ## Deployment topology
 
 - **Local / demo:** `docker compose up` brings up Nginx, frontend build, backend,
   and Redis on a shared network.
-- **Production:** Gunicorn behind Nginx with TLS; MySQL, MongoDB, and RabbitMQ as
-  backing services; Prometheus + Grafana for metrics.
-- **Edge:** a trimmed build runs on a Raspberry Pi for on-site demos, which is why
-  the system avoids hard GPU dependencies and degrades to CPU automatically. A full
-  comparison (audio sync + MediaPipe over 920 frames) runs in ~5 minutes on a
-  Raspberry Pi 5.
+- **Production:** Gunicorn behind Nginx with TLS; MongoDB and RabbitMQ as
+  backing services.
+- **Edge:** a trimmed build runs on a Raspberry Pi 5 for on-site demos, with
+  **SQLite** as the database. The same build avoids hard GPU dependencies and
+  degrades to CPU automatically. A full comparison (audio sync + MediaPipe over
+  920 frames) runs in ~5 minutes on a Raspberry Pi 5.
+- **At scale:** the same schema on **MySQL** instead of SQLite.
 
 ## Cross-cutting concerns
 
