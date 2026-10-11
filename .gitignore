@@ -1,0 +1,8 @@
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.swp
+
+# Large media that shouldn't be committed (keep individual files under ~10 MB)
+*.mov
+node_modules/
